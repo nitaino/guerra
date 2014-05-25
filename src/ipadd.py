@@ -6,22 +6,32 @@ Genera direcciones de IP version 4 por haora.
 
 """
 
-from libnitaino import collecion_a_numeros
+from libnitaino import analiza_serie, printea    
 
-def analiza_serie(cadena):
+def procesa_ip(fun, cadena):
     """
-    Convierte una cadena en formato n1-n2 a una serie
-    de numeros, Opcionalmente tambien se puede a~adir un
-    tercer numero n1-n2-n3, que representa el pazo entre
-    cada elemento.
-    """
-    # la cadena no puede estar bacia ni contenere letras que no sean '-'
-    # solo numeros tambien checkea que la cadena no sea ''
+    Toma una cadena en formato de una ip con series,
+    Ejemplo:
+      0-255.0.0.0
+    I le applica fun cada combinacion possible de cada serie.
     
-    if ('-' not in cadena):
-        # solo un numero sin '-' regresa una collecion con
-        # solo el numero
-        return collecion_a_numeros([cadena])
-    else:
-        return range(*(collecion_a_numeros(cadena.split('-'))))
+    # TODO: hazme mas funcional
+    """
+    
+    serie1, serie2, serie3, serie4 = map(analiza_serie, cadena.split('.'))
+    results = []    
+    for i1 in serie1:
+        for i2 in serie2:
+            for i3 in serie3:
+                for i4 in serie4:
+                    results.append(fun('%s.%s.%s.%s' % (i1, i2, i3, i4)))
+    return results
+    
+
+def genera_ips(cadena):
+    """
+    Toma una cadena en formato de una ip con series,
+    i printea cada combinacion possible.
+    """
+    return procesa_ip(printea, cadena)
 
